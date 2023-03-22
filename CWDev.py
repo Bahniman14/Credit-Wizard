@@ -11,20 +11,8 @@ from sklearn.naive_bayes import GaussianNB
 
 dataset = pd.read_csv('trainCW.csv')
 print(dataset.head)
-# print(dataset.shape)
-# print(pd.crosstab(dataset['Credit_History'], dataset['Loan_Status'], margins= True))
-# dataset.boxplot(column='ApplicantIncome')
-# plt.show()
-# dataset['ApplicantIncome'].hist(bins=20)
-# plt.show()
-# dataset['CoapplicantIncome'].hist(bins=20)
-# plt.show()
-# dataset['LoanAmount'].hist(bins=20)
-# plt.show()
 # **Normalizing LoanAmount_log**
 dataset['LoanAmount_log'] = np.log(dataset['LoanAmount'])
-# dataset['LoanAmount_log'].hist(bins=20)
-# plt.show()
 
 # **Finding Missing Values present in each of the variables in the data set **
 print(dataset.isnull().sum())
@@ -38,13 +26,11 @@ dataset.LoanAmount_log = dataset.LoanAmount_log.fillna(dataset.LoanAmount_log.me
 dataset['Loan_Amount_Term'].fillna(dataset['Loan_Amount_Term'].mode()[0], inplace= True)
 dataset['Credit_History'].fillna(dataset['Credit_History'].mode()[0], inplace= True)
 print(dataset.isnull().sum())
+
 # **Normalizing Other Missing Datas
 dataset['TotalIncome'] = dataset['ApplicantIncome'] + dataset['CoapplicantIncome']
 dataset['TotalIncome_log'] = np.log(dataset['TotalIncome'])
-# dataset['TotalIncome'].hist(bins= 20)
-# plt.show()
-# dataset['TotalIncome_log'].hist(bins= 20)
-# plt.show()
+
 # **Normalization and filling up missing data is done!
 print(dataset.head())
 # **Storing Dependent and Indepented Variabes saparately
@@ -87,7 +73,6 @@ SS = StandardScaler()
 x_train = SS.fit_transform(x_train)
 x_test = SS.fit_transform(x_test)
 
-
 # Appling Decision Tree Algorithm (Uneffective)
 # decisiontree = DecisionTreeClassifier(criterion = 'entropy', random_state = 0)
 # decisiontree.fit(x_train, y_train)
@@ -95,6 +80,7 @@ x_test = SS.fit_transform(x_test)
 # print("prediction:")
 # print(y_pred)
 # print("Decision Tree Prediction Accuracy: ", metrics.accuracy_score(y_pred, y_test))
+
 # Appling Naive Bayes Algorithm (effective)
 naiveBayes = GaussianNB()
 naiveBayes.fit(x_train, y_train)
@@ -104,57 +90,34 @@ print("prediction:")
 print(y_pred)
 print("Decision Tree Prediction Accuracy: ", metrics.accuracy_score(y_pred, y_test))
 
-testdata_1 = pd.read_csv('testCW1.csv')
-testdata_1['LoanAmount_log'] = np.log(testdata_1['LoanAmount'])
+#Reading Test Data:
+testdata= pd.read_csv('test.csv')
 # ** cheaking there is any missing value or not **
-print(testdata_1.isnull().sum())
-testdata_1['TotalIncome'] = testdata_1['ApplicantIncome'] + testdata_1['CoapplicantIncome']
-testdata_1['TotalIncome_log'] = np.log(testdata_1['TotalIncome'])
-test_1 = testdata_1.iloc[:,np.r_[1:5,9:11,13:15]].values
-LE_test_1 = LabelEncoder()
+print(testdata.isnull().sum())
+testdata['Gender'].fillna(testdata['Gender'].mode()[0], inplace= True)
+testdata['Dependents'].fillna(testdata['Dependents'].mode()[0], inplace= True)
+testdata['Self_Employed'].fillna(testdata['Self_Employed'].mode()[0], inplace= True)
+testdata.LoanAmount = testdata.LoanAmount.fillna(testdata.LoanAmount.mean())
+testdata['Loan_Amount_Term'].fillna(testdata['Loan_Amount_Term'].mode()[0], inplace= True)
+testdata['Credit_History'].fillna(testdata['Credit_History'].mode()[0], inplace= True)
+testdata['LoanAmount_log'] = np.log(testdata['LoanAmount'])
+print(testdata.isnull().sum())
+
+testdata['TotalIncome'] = testdata['ApplicantIncome'] + testdata['CoapplicantIncome']
+testdata['TotalIncome_log'] = np.log(testdata['TotalIncome'])
+print(testdata)
+test = testdata.iloc[:,np.r_[1:5,9:11,13:15]].values
+LE_test = LabelEncoder()
 for i in range(0,5):
-        test_1[:,i] = LE_test_1.fit_transform(test_1[:,i])
-test_1[:,7] = LE_test_1.fit_transform(test_1[:,7])
-test_1 = SS.fit_transform(test_1)
-print(test_1)
-predtest_1 = naiveBayes.predict(test_1)
+        test[:,i] = LE_test.fit_transform(test[:,i])
+test[:,7] = LE_test.fit_transform(test[:,7])
+print(test)
+test = SS.fit_transform(test)
+print(test)
+prediction= naiveBayes.predict(test)
+print(prediction)
+print(prediction[0])
+print(prediction[1])
+print(prediction[7])
 
 
-testdata_2 = pd.read_csv('testCW2.csv')
-testdata_2['LoanAmount_log'] = np.log(testdata_1['LoanAmount'])
-# ** cheaking there is any missing value or not **
-print(testdata_2.isnull().sum())
-testdata_2['TotalIncome'] = testdata_1['ApplicantIncome'] + testdata_1['CoapplicantIncome']
-testdata_2['TotalIncome_log'] = np.log(testdata_1['TotalIncome'])
-test_2 = testdata_2.iloc[:,np.r_[1:5,9:11,13:15]].values
-LE_test_2 = LabelEncoder()
-for i in range(0,5):
-        test_2[:,i] = LE_test_2.fit_transform(test_1[:,i])
-test_2[:,7] = LE_test_1.fit_transform(test_1[:,7])
-test_2 = SS.fit_transform(test_1)
-print(test_2)
-predtest_2 = naiveBayes.predict(test_2)
-
-
-testdata_8 = pd.read_csv('testCW8.csv')
-testdata_8['LoanAmount_log'] = np.log(testdata_8['LoanAmount'])
-# ** cheaking there is any missing value or not **
-print(testdata_8.isnull().sum())
-testdata_8['TotalIncome'] = testdata_8['ApplicantIncome'] + testdata_8['CoapplicantIncome']
-testdata_8['TotalIncome_log'] = np.log(testdata_8['TotalIncome'])
-test_8 = testdata_8.iloc[:,np.r_[1:5,9:11,13:15]].values
-LE_test_8 = LabelEncoder()
-for i in range(0,5):
-        test_8[:,i] = LE_test_8.fit_transform(test_8[:,i])
-test_8[:,7] = LE_test_8.fit_transform(test_8[:,7])
-test_8 = SS.fit_transform(test_8)
-print(test_8)
-predtest_8 = naiveBayes.predict(test_8)
-
-
-
-
-
-print(f"Prediction on test data.1 : {predtest_1}")
-print(f"Prediction on test data.1 : {predtest_2}")
-print(f"Prediction on test data.1 : {predtest_8}")
