@@ -30,15 +30,18 @@ testdata = pd.read_csv('testCW.csv')
 pickle_in = open("model.pkl", "rb")
 naiveBayes = pickle.load(pickle_in)
 
+# @app.get('/')
+# def index():
+#     return {'message': 'Hello!!'}
+
+# under development:
 @app.get('/')
 def predict():
      test = modify(testdata)
      prediction = naiveBayes.predict(test)
+    
+    #  return {f'{prediction[366]}'}
      return {f'{prediction[7]}'}
-    #  return {f'{prediction[367]}'
-             
-
-
 
 if __name__=='__main__':
     uvicorn.run(app,host='127.0.0.1', port=8000)
