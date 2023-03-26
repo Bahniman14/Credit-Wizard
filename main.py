@@ -32,7 +32,7 @@ naiveBayes = pickle.load(pickle_in)
 
 @app.get('/')
 def index():
-    return {'message': 'Hello World'}
+    return {'message': 'Hello Kamya'}
 
 # under development:
 @app.get('/predict')
