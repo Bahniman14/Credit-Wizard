@@ -99,9 +99,9 @@ print("Decision Tree Prediction Accuracy: ",
       metrics.accuracy_score(y_pred, y_test))
 
 # Reading Test Data:
-# testdata = pd.read_csv('testCW.csv')
-# # ** cheaking there is any missing value or not **
-# # print(testdata.isnull().sum())
+testdata = pd.read_csv('testCW.csv')
+# ** cheaking there is any missing value or not **
+# print(testdata.isnull().sum())
 # testdata['Gender'].fillna(testdata['Gender'].mode()[0], inplace=True)
 # testdata['Dependents'].fillna(testdata['Dependents'].mode()[0], inplace=True)
 # testdata['Self_Employed'].fillna(
@@ -127,8 +127,11 @@ print("Decision Tree Prediction Accuracy: ",
 # test = SS.fit_transform(test)
 # # print(test)
 # prediction = naiveBayes.predict(test)
-# # print(prediction)
+# print(prediction)
+# print(type(prediction)) --> type: numpy.ndarray
 # print(prediction[366])
+
+
 
 pickle_out = open("model.pkl", "wb")
 pickle.dump(naiveBayes, pickle_out)
