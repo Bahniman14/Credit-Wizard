@@ -1,0 +1,12 @@
+Loan_ID: (string) 'LP_ _ _ _ _ _'[random 6 digit integer]
+Gender: (string) [Male/Female]
+Married:(string) [Yes/No]
+Dependents: (int) [0/1/2/3+]
+Education: (string) [Graduate/Not Graduate]
+Self_Employed: (string) [Yes/No]
+ApplicantIncome: (non negetive int)
+CoapplicantIncome: (non negetive int)
+LoanAmount: (positive int)
+Loan_Amount_Term: (int) [a multiple of 6 in the range of [6 - 480]]
+Credit_History:(int): (int) [0/1]
+Property_Area: (string) [Urban/Semiurban/Rural]
